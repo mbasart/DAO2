@@ -22,9 +22,14 @@ public class FactorySession {
         //Crear instancia DRIVER!! ponerlo en el pom, buscar en google
         Connection conn = null;
         try {
+            //String driver = "com.mysql.jdbc.Driver";
+            String dbname = "testdb";
+            String username = "Meritxell";
+            String password = "mypass1";
+            //Class.forName(driver);
             conn =
-                    DriverManager.getConnection("jdbc:mysql://localhost/test?" +
-                            "user=minty&password=greatsqldb");
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/"+ dbname +
+                            "?user=" + username+ "&password="+password+"");
 
         } catch (SQLException ex) {
             // handle any errors
