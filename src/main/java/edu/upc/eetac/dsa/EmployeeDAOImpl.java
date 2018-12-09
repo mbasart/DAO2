@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa;
 
+import com.sun.xml.internal.ws.message.EmptyMessageImpl;
 import edu.upc.eetac.dsa.model.Employee;
 import org.apache.log4j.Logger;
 
@@ -7,6 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EmployeeDAOImpl implements IEmployeeDAO{
+
+    private static IEmployeeDAO instance;
+
+    private EmployeeDAOImpl(){
+
+    }
+
+    public static IEmployeeDAO getInstance(){
+        if(instance == null)
+            instance = new EmployeeDAOImpl();
+        return instance;
+    }
+
+    public void clear(){
+        instance = new EmployeeDAOImpl();
+    }
 
     //mostra informacio amb log4j
     final Logger log = Logger.getLogger(EmployeeDAOImpl.class);
@@ -18,6 +35,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO{
             session = FactorySession.openSession();
             Employee employee = new Employee(name, surname, salary);
             session.save(employee);
+            log.info("name: " + name + "surname: " + surname); //per veure si el employee esta be
         }
         catch (Exception e) {
             // LOG

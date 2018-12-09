@@ -41,7 +41,10 @@ public class SessionImpl implements Session {
                 pstm.setObject(i++, ObjectHelper.getter(entity, field));
             }
 
-            pstm.executeQuery();
+            log.info(pstm.toString()); //vull veure si dona el insert amb els valors introduits
+
+            //pstm.executeQuery();
+            pstm.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

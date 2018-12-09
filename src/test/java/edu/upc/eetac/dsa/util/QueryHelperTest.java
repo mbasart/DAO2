@@ -6,6 +6,7 @@ import edu.upc.eetac.dsa.model.Deparment;
 import edu.upc.eetac.dsa.model.Employee;
 
 public class QueryHelperTest {
+
     @Test
     public void testQueryINSERT() {
         Assert.assertEquals("INSERT INTO Employee (ID, name, surname, salary) VALUES (?, ?, ?, ?)",

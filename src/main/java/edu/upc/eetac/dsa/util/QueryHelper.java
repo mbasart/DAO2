@@ -3,6 +3,7 @@ package edu.upc.eetac.dsa.util;
 public class QueryHelper {
 
     public static String createQueryINSERT(Object entity) {
+        System.out.println("entra a la funcio de INSERT."); //comentaris que poso de prova
 
         StringBuffer sb = new StringBuffer("INSERT INTO ");
         sb.append(entity.getClass().getSimpleName()).append(" ");
@@ -22,6 +23,8 @@ public class QueryHelper {
         }
 
         sb.append(")");
+
+        System.out.println(sb.toString()); //comentaris que poso de prova
 
         return sb.toString();
     }
