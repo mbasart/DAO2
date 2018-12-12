@@ -36,7 +36,7 @@ public class ObjectHelper {
                 ret = null;
             } else if(method.getParameterTypes().length != 1){
                 ret = null;
-            } else if(method.getName().toLowerCase().startsWith(property,3)){
+            } else if(method.getName().toUpperCase().startsWith(property,3)){
                 method.invoke(object, value);
             }
 
@@ -57,7 +57,16 @@ public class ObjectHelper {
         Method[] methodList = theClass.getMethods();
 
         for(Method method:methodList){
-            ret = method.invoke(object);
+            if(!method.getName().startsWith("get")){
+                ret = null;
+                System.out.println("Retorna null perque no startWith get.");
+            } else if (method.getParameterTypes().length != 0){
+                //getParametTypes ha de ser null
+                ret = null;
+                System.out.println("Retorna null perque ParameterTypes no es 0.");
+            } else if(method.getName().toUpperCase().startsWith(property,3)){
+                ret = method.invoke(object);
+            }
         }
 
         return ret;
