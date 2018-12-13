@@ -1,5 +1,7 @@
 package edu.upc.eetac.dsa.util;
 
+import edu.upc.eetac.dsa.model.Employee;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -44,7 +46,8 @@ public class ObjectHelper {
 
     }
 
-    public static Object getter(Object object, String property) throws InvocationTargetException, IllegalAccessException {
+    // getter(instance, "name");
+    public static Object getter(Object object, String property) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         System.out.println("Entra a la funcio getter.");
         // Method // invoke
         Object ret = null;
@@ -55,20 +58,22 @@ public class ObjectHelper {
 
 
         Method[] methodList = theClass.getMethods();
+        String sMethod = "get"+ property.substring(0,1).toUpperCase()+property.substring(1);
+        System.out.println("metode> "+sMethod);
 
-        for(Method method:methodList){
-            if(!method.getName().startsWith("get")){
-                ret = null;
-                System.out.println("Retorna null perque no startWith get.");
-            } else if (method.getParameterTypes().length != 0){
-                //getParametTypes ha de ser null
-                ret = null;
-                System.out.println("Retorna null perque ParameterTypes no es 0.");
-            } else if(method.getName().toUpperCase().startsWith(property,3)){
-                ret = method.invoke(object);
-            }
-        }
+
+        Method getter = theClass.getMethod(sMethod,null);
+        ret = getter.invoke(object);
 
         return ret;
     }
+
+
+
+    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        String ret = (String)getter(new Employee("Meritxell", "ccccccc",333333333), "name");
+
+        System.out.println(ret);
+    }
+
 }

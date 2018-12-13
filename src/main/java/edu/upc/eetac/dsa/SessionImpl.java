@@ -52,6 +52,8 @@ public class SessionImpl implements Session {
             e.printStackTrace();
         } catch (InvocationTargetException e){
             e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
 
     }
