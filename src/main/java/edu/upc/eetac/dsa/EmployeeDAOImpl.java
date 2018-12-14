@@ -54,7 +54,8 @@ public class EmployeeDAOImpl implements IEmployeeDAO{
         Employee employee = null;
         try {
             session = FactorySession.openSession();
-            employee = (Employee)session.get(Employee.class, employeeID);
+            employee = (Employee)session.get(new Employee("","",0), employeeID);
+            log.info("Employee: "+ employee.getName() + " Surname: "+employee.getSurname() + " Salari: "+Double.toString(employee.getSalary()));
         }
         catch (Exception e) {
             // LOG

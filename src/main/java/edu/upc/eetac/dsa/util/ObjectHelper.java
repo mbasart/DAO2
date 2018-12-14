@@ -26,22 +26,26 @@ public class ObjectHelper {
     }
 
 
-    public static void setter(Object object, String property, Object value) throws InvocationTargetException, IllegalAccessException {
+    public static void setter(Object object, String property, Object value) throws NoSuchMethodException {
         // Method // invoke
+        System.out.println("Entra a la funcio setter.");
         Object ret = null;
         Class theClass = object.getClass();
 
-        Method[] methodList = theClass.getMethods();
+        //Method[] methodList = theClass.getMethods();
+        String gMethod = "set"+ property.substring(0,1).toUpperCase()+property.substring(1);
+        System.out.println("metode> " + gMethod);
+        Method setter = null;
+        if(value.getClass()==String.class){
+            setter = theClass.getMethod(gMethod,String.class);
+        } else if(value.getClass()==Double.class){
+            setter = theClass.getMethod(gMethod,double.class);
+        }
 
-        for(Method method : methodList){
-            if(!method.getName().startsWith("set")){
-                ret = null;
-            } else if(method.getParameterTypes().length != 1){
-                ret = null;
-            } else if(method.getName().toUpperCase().startsWith(property,3)){
-                method.invoke(object, value);
-            }
-
+        try{
+            setter.invoke(object, value);
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
     }
@@ -57,7 +61,7 @@ public class ObjectHelper {
         //Method method = theClass.getMethod(property, null)  ;
 
 
-        Method[] methodList = theClass.getMethods();
+        //Method[] methodList = theClass.getMethods();
         String sMethod = "get"+ property.substring(0,1).toUpperCase()+property.substring(1);
         System.out.println("metode> "+sMethod);
 

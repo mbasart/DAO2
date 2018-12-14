@@ -30,6 +30,7 @@ public class QueryHelper {
     }
 
     public static String createQuerySELECT(Object entity) {
+        System.out.println("entra a la funcio de SELECT."); //comentaris que poso de prova
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT * FROM ").append(entity.getClass().getSimpleName());
         sb.append(" WHERE ID = ?");

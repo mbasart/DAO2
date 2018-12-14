@@ -4,10 +4,9 @@ import edu.upc.eetac.dsa.util.ObjectHelper;
 import edu.upc.eetac.dsa.util.QueryHelper;
 import org.apache.log4j.Logger;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,12 +58,48 @@ public class SessionImpl implements Session {
     }
 
     public void close() {
-
+        try{
+            this.conn.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public Object get(Class theClass, int ID) {
+    public Object get(Object o, int ID) {
+        Class theClass = o.getClass();
+        String selectQuery = QueryHelper.createQuerySELECT(o);
+        log.info(selectQuery);
 
-        return null;
+        Object entity = null;
+
+        PreparedStatement pstm = null;
+        ResultSet result = null;
+
+        try{
+            pstm = conn.prepareStatement(selectQuery);
+            pstm.setObject(1, ID);
+            log.info("Anem a executar la Query.");
+            result = pstm.executeQuery();
+            log.info("Query executada satisfactoriament.");
+
+            while (result.next()){
+                Field[] fields = theClass.getDeclaredFields();
+                result.getString(1);
+                for(int i = 0; i < fields.length; i ++){
+                    ResultSetMetaData rsmd = result.getMetaData();
+                    String name = rsmd.getColumnName(i+2);
+                    log.info("The column name is: "+ name);
+                    ObjectHelper.setter(o,name, result.getObject(i+2));
+                }
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }catch (NoSuchMethodException e){
+            e.printStackTrace();
+        }
+
+        return o;
     }
 
     public void update(Object object) {
